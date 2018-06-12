@@ -1,0 +1,76 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AadB2cMaster.master.cs" Inherits="WebFormsApp.AADB2C.AadB2cMaster" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication Experience</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- TODO: favicon -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="<%: GetAbsoluteUrl("~/AADB2C/Content/css/global.css") %>" rel="stylesheet" type="text/css" />
+    <style>
+        /* Sticky footer styles */
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            background-color: rgba(32,32,32,0.9);
+            font-size: 12px;
+        }
+
+        .container .text-muted {
+            margin: 20px 0;
+            color: #f3f3f3;
+        }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <div id="mainDiv" runat="server">
+        <div class="container unified_container azureheads">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-1 col-sm-8">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="image-center">
+                                <div class="login-logo-container">
+                                    <img alt="azureheads" class="login-logo" src="<%: GetAbsoluteUrl("~/AADB2C/Content/images/azureheads-logo.png") %>" />
+                                </div>
+                            </div>
+                            <asp:ContentPlaceHolder ID="mainContent" runat="server"></asp:ContentPlaceHolder>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <p class="text-muted">Url: <strong><%: Request.Url.AbsoluteUri %></strong></p>
+                    </div>
+                    <div class="col-sm-3">
+                        <p class="text-muted pull-right">[server: <strong><%: DateTime.Now.ToString("ddd dd MMM yyyy, HH:mm") %></strong>]</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Request: <%: Request.Url.AbsoluteUri %>-->
+    </div>
+</body>
+</html>
