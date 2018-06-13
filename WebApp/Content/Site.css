@@ -68,7 +68,7 @@ input[type="checkbox"].input-validation-error {
     cursor:pointer;
 }
 
-.claim-table, table, td, th {
+.claim-table {
     margin-bottom:30px;
     border: solid;
     border-width:thin;

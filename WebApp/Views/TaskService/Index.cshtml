@@ -15,7 +15,7 @@
 
 <br />
 
-<table class="table table-bordered table-striped table-hover table-condensed" style="table-layout: auto">
+<table class="table table-bordered table-hover table-striped" style="table-layout: auto">
 
     <tr>
         <th>Items:</th>
@@ -27,7 +27,7 @@
             <td>
                 @using (Html.BeginForm("Delete", "TaskService", FormMethod.Post))
                 {
-                    @item.Text
+                    <div style="max-width:90%;overflow-x:hidden;text-overflow:ellipsis">@item.Text</div>
                     <button name="id" value="@item.Id" style="float:right">Delete</button>
                 }
             </td>

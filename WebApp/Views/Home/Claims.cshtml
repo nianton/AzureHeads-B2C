@@ -6,17 +6,17 @@
 
 <h4>Claims Present in the Claims Identity:</h4>
 
-<table class="table-hover claim-table">
+<table class="table table-bordered table-hover table-striped">
     <tr>
-        <th class="claim-type claim-data claim-head">Claim Type</th>
-        <th class="claim-data claim-head">Claim Value</th>
+        <th>Claim Type</th>
+        <th>Claim Value</th>
     </tr>
 
-    @foreach (Claim claim in ClaimsPrincipal.Current.Claims)
+    @foreach (Claim claim in ClaimsPrincipal.Current.Claims.OrderBy(c => c.Type))
     {
         <tr>
             <td class="claim-type claim-data">@claim.Type</td>
-            <td class="claim-data">@claim.Value</td>
+            <td class="claim-data"><div style="max-width:450px;overflow-x:hidden;text-overflow:ellipsis">@claim.Value</div></td>
         </tr>
     }
 </table>
