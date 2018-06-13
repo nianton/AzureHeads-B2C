@@ -195,7 +195,9 @@
     <Content Include="Content\adb2c\css\global.css" />
     <Content Include="Content\adb2c\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\adb2c\images\activedirectory.png" />
+    <Content Include="Content\adb2c\images\azureheads-logo.png" />
     <Content Include="Content\adb2c\images\bg.jpg" />
+    <Content Include="Content\adb2c\images\bg_alt.jpg" />
     <Content Include="Content\adb2c\images\el_logo.png" />
     <Content Include="Content\adb2c\images\facebook.png" />
     <Content Include="Content\adb2c\images\googleplus.png" />
