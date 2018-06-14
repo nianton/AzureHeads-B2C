@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -36,27 +37,36 @@ namespace UserMigrationApp
                 HAVING COUNT(*) > 1)";
 
             var persons = await dbConnection.QueryAsync<Person>(query);
-            var users = persons.Select(p => new User
+            var users = persons.Select(p =>
             {
-                SignInNames = new List<SignInName>
+                var user = new User
                 {
-                     new SignInName()
-                     {
-                         Type = "emailAddress",
-                         Value = p.LogonName
-                     }
-                },
-                JobTitle = p.Title,
-                DisplayName = p.FullName,
-                CreationType = "LocalAccount",
-                AccountEnabled = true,
-                PasswordProfile = new PasswordProfile
-                {
-                    EnforceChangePasswordPolicy = false,
-                    ForceChangePasswordNextLogin = false,
-                    Password = DefaultPassword
-                }
+                    SignInNames = new List<SignInName>
+                    {
+                         new SignInName()
+                         {
+                             Type = "emailAddress",
+                             Value = p.LogonName
+                         }
+                    },
+                    JobTitle = p.Title,
+                    DisplayName = p.FullName,
+                    CreationType = "LocalAccount",
+                    AccountEnabled = true,
+                    PasswordProfile = new PasswordProfile
+                    {
+                        EnforceChangePasswordPolicy = false,
+                        ForceChangePasswordNextLogin = false,
+                        Password = DefaultPassword
+                    }
+                };
+
+                // TODO: Uncomment to set custom property
+                //user.SetExtendedProperty("TaxRegistrationNumber", $"{DateTime.Now:FFFssmmHH}");
+
+                return user;
             }).ToList();
+
 
             return users;
         }
