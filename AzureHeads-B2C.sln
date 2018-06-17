@@ -21,13 +21,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceApp", "WcfService
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormsApp", "WebFormsApp\WebFormsApp.csproj", "{73A8CF55-7D37-49B7-A105-779EA5E39EEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityFuncApp", "IdentityFuncApp\IdentityFuncApp.csproj", "{0CC440CE-F065-480E-A22E-D8D6B35BCE3D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserMigrationApp", "UserMigrationApp\UserMigrationApp.csproj", "{7FD6BFEA-1DE1-44D7-AF85-BE638AB99E08}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{6412F870-033B-446F-AD73-00B90C590FCE}"
 	ProjectSection(SolutionItems) = preProject
 		Scripts\AzureHeadsB2c-GrantDelete.ps1 = Scripts\AzureHeadsB2c-GrantDelete.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21CE3EDD-8CF6-49A9-8994-E1A3833EEA84}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
@@ -52,10 +55,6 @@ Global
 		{73A8CF55-7D37-49B7-A105-779EA5E39EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73A8CF55-7D37-49B7-A105-779EA5E39EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73A8CF55-7D37-49B7-A105-779EA5E39EEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CC440CE-F065-480E-A22E-D8D6B35BCE3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CC440CE-F065-480E-A22E-D8D6B35BCE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CC440CE-F065-480E-A22E-D8D6B35BCE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CC440CE-F065-480E-A22E-D8D6B35BCE3D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FD6BFEA-1DE1-44D7-AF85-BE638AB99E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7FD6BFEA-1DE1-44D7-AF85-BE638AB99E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FD6BFEA-1DE1-44D7-AF85-BE638AB99E08}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -62,7 +62,7 @@ namespace UserMigrationApp
                 };
 
                 // TODO: Uncomment to set custom property
-                //user.SetExtendedProperty("TaxRegistrationNumber", $"{DateTime.Now:FFFssmmHH}");
+                user.SetExtendedProperty("TaxRegistrationNumber", $"{DateTime.Now:FFFssmmHH}");
 
                 return user;
             }).ToList();

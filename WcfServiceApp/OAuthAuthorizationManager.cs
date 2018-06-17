@@ -24,24 +24,13 @@ namespace WcfServiceApp
         private const string BearerTokenPrefix = "Bearer";
         private const string AuthContextPrincipalPropertyName = "Principal";
 
-        private readonly IDictionary<string, ConfigurationManager<OpenIdConnectConfiguration>> _configurationManagersIndex;
+        private readonly ConfigurationManager<OpenIdConnectConfiguration> _configurationManager;
 
         public OAuthAuthorizationManager()
         {
             // Build B2C configuration manager
             var b2cEndpoint = string.Format(AuthSettings.AadInstance, AuthSettings.Tenant, AuthSettings.DefaultPolicy);
-            var b2cConfigurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(b2cEndpoint, new OpenIdConnectConfigurationRetriever());
-            var b2cConfig = b2cConfigurationManager.GetConfigurationAsync().Result;
-
-            // Build AAD configuration manager
-            var aadEndpoint = string.Format(AuthSettings.AadMetadataInstance, AuthSettings.AadTenant);
-            var aadConfigurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(aadEndpoint, new OpenIdConnectConfigurationRetriever());
-            var aadConfig = aadConfigurationManager.GetConfigurationAsync().Result;
-
-            // Register configuration managers based on the issued
-            _configurationManagersIndex = new Dictionary<string, ConfigurationManager<OpenIdConnectConfiguration>>();
-            _configurationManagersIndex.Add(b2cConfig.Issuer, b2cConfigurationManager);
-            _configurationManagersIndex.Add(aadConfig.Issuer, aadConfigurationManager);
+            _configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(b2cEndpoint, new OpenIdConnectConfigurationRetriever());
         }
 
         protected override bool CheckAccessCore(OperationContext operationContext)
@@ -87,33 +76,16 @@ namespace WcfServiceApp
             }
         }
 
-        private ConfigurationManager<OpenIdConnectConfiguration> GetConfigurationManager(string issuer)
+        private async Task<TokenValidationParameters> GetValidationParametersAsync()
         {
-            if (_configurationManagersIndex.TryGetValue(issuer, out var configurationManager))
-            {
-                return configurationManager;
-            }
-
-            return null;
-        }
-
-        private async Task<TokenValidationParameters> GetValidationParametersAsync(string issuer)
-        {
-            var configurationManager = GetConfigurationManager(issuer);
-            if (configurationManager == null)
-            {
-                return null;
-            }
-
-            var isAad = issuer.StartsWith("https://sts.windows.net");
-            var config = await configurationManager.GetConfigurationAsync();
+            var config = await _configurationManager.GetConfigurationAsync();
 
             return new TokenValidationParameters()
             {
-                ValidAudience = isAad ?  AuthSettings.AadAudience : AuthSettings.ClientId,
+                ValidAudience = AuthSettings.ClientId,
                 IssuerSigningKeys = config.SigningKeys.OfType<RsaSecurityKey>(),
                 ValidIssuer = config.Issuer,
-                AuthenticationType = isAad ? AuthSettings.AadAuthType : AuthSettings.SignUpSignInPolicy,
+                AuthenticationType = AuthSettings.SignUpSignInPolicy,
                 RequireExpirationTime = true
             };
         }
@@ -130,9 +102,8 @@ namespace WcfServiceApp
 
             // Read Jwt token and create validation parameters based on issuer
             var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(jwt);
 
-            var validationParameters = await GetValidationParametersAsync(jwtToken.Issuer);
+            var validationParameters = await GetValidationParametersAsync();
             if (validationParameters == null)
             {
                 return null;

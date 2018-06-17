@@ -20,10 +20,6 @@ namespace WebApi
             if (claimsPrincipal == null)
                 return false;
 
-            // TODO: We are granting access for AAD accounts -needs revisit for production code
-            if (claimsPrincipal.Identity.AuthenticationType == Startup.AadAuthType)
-                return true;
-
             var scopeClaim = claimsPrincipal.FindFirst(ScopeClaimType);
             if (scopeClaim == null)
                 return false;

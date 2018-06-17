@@ -38,7 +38,7 @@ namespace UserMigrationApp
             // Migrate first 20 user to B2C
             var createdUsers = new List<User>();
             var timespans = new List<long>();
-            foreach (var user in users.Take(20))
+            foreach (var user in users.Skip(30).Take(20))
             {
                 user.DisplayName = "test " + user.DisplayName;
                 var sw = Stopwatch.StartNew();

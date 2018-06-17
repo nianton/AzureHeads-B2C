@@ -13,7 +13,6 @@ namespace WebApi
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            ConfigureAuthForAAD(app);
         }
     }
 }
