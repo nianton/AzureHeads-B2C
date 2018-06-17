@@ -13,10 +13,15 @@ The following projects are included:
 ## Web App
 It is an ASP.NET MVC 4 web application which uses B2C as the OpenIDConnect authentication mechanism, 
 and it also uses MSAL.NET to acquire an access token for the logged in user in order to access a protected WebAPI/WCF service.
+
 ##### UI Customization for AD B2C
 The project includes some static HTML pages that can be used for the UI customization of the B2C policies located on folder /Content/adb2c.
 There is also a dedicated controller (AdB2CController.cs) which is used to demonstrate how to generate dynamic content for the UI template used by B2C.
 <br>__Note__: The endpoints for UI customization have to allow CORS in order to be consumed by AAD B2C, so please ensure that it is enabled (e.g. on Api -> CORS setting for a Web App on Azure App Service).
+
+##### ROPC flow (programmatic login)
+The programmatic login using the Resource Owner Password Credentials (ROPC) flow supported by AAD B2C is demonstrated by the /Account/RopcLogin, which acquires an access token without redirecting the user to AAD B2C's domain. 
+The ROPC calls are wrapped in a simple AuthService class (under Helpers/AuthService.cs), if you wish to check the actual HTTP calls and payloads.
 
 ##### WCF client
 This project also includes all the necessary classes to make a WCF client for a web endpoint to use the bearer token for user authentication. The related classes are under the folder /Helpers/WCF and the configuration of the WCF client is done on TaskServiceController.cs.
