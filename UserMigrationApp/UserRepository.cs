@@ -27,6 +27,10 @@ namespace UserMigrationApp
 
         public async Task<List<User>> GetUsersAsync()
         {
+            // This query is intented to run against an instance of WorldWideImporters
+            // which is a MS SQL Server sample database. Replace with different logic to
+            // access local users.
+
             var query = @"
             SELECT *, JSON_VALUE([CustomFields],'$.Title') AS Title 
             FROM [Application].[People] 
@@ -61,8 +65,9 @@ namespace UserMigrationApp
                     }
                 };
 
-                // TODO: Uncomment to set custom property
-                user.SetExtendedProperty("TaxRegistrationNumber", $"{DateTime.Now:FFFssmmHH}");
+                // TODO: Uncomment to set custom property already created on your AAD B2C tenant
+                // var taxNumber = $"{DateTime.Now:FFFssmmHH}";
+                //user.SetExtendedProperty("TaxRegistrationNumber", taxNumber);
 
                 return user;
             }).ToList();

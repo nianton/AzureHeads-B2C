@@ -127,21 +127,6 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        public ActionResult AadRopcLogin(string userName)
-        {
-            var model = new AadRopcLoginModel() { Username = userName };
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> AadRopcLogin(AadRopcLoginModel model)
-        {
-            IAADAuthService authenticationService = new AADAuthService(Startup.AadTokenEndpoint, Startup.AadClientId, Startup.AadAudience);
-            AadAuthResult authenticationResult = await authenticationService.AuthorizeAsync(model.Username, model.Password, new[] { "openid" });
-            model.Result = authenticationResult;
-            return View(model);
-        }
-
         #endregion
     }
 }

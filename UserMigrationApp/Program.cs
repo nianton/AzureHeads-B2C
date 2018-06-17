@@ -18,29 +18,47 @@ namespace UserMigrationApp
 
         static void Main(string[] args)
         {
-            Console.Write("Checkin GraphAPI client credentials...");
+            Console.Write("Checking GraphAPI client credentials...");
             client = new GraphApiClient(applicationId, applicationSecret, tenant);
-            client.EnsureInitAsync().Wait();
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("DONE.");
-            Console.ForegroundColor = ConsoleColor.White;
+            try
+            {
+                client.EnsureInitAsync().Wait();
 
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("DONE.");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Graph API credentials probably are not correct. Please fix and try again.");
+                Console.WriteLine($"Error: {ex}");
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+                return;
+            }
 
+            // Deletes test users (from previous runs)
             DeleteTestUsers();
 
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
             // Load local users
+            Console.Write("Retrieving local users...");
             var userRepository = new UserRepository(connectionString);
-            var users = userRepository.GetUsersAsync().Result;
-            
-            // Migrate first 20 user to B2C
+            var users = userRepository.GetUsersAsync().Result;        
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("DONE.");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            // Migrate first 20 users to B2C
             var createdUsers = new List<User>();
             var timespans = new List<long>();
-            foreach (var user in users.Skip(30).Take(20))
+            foreach (var user in users.Take(20))
             {
+                // Assign a test prefix during demo.
                 user.DisplayName = "test " + user.DisplayName;
+
                 var sw = Stopwatch.StartNew();
                 var newUser = client.UserCreateAsync(user).Result;
                 var elapsedMs = sw.ElapsedMilliseconds;
@@ -51,6 +69,8 @@ namespace UserMigrationApp
 
             Console.WriteLine($"Users created: {users.Count} -Avg creation: {timespans.Average()} ms.");
             Console.WriteLine();
+
+            // Removing users just created for demo's purposes
             Console.WriteLine("Do you want to delete the created users? (Y/N)");
             var confirmation = Console.ReadLine();
             if (!string.Equals(confirmation, "Y", StringComparison.OrdinalIgnoreCase))
